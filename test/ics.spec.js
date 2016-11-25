@@ -145,6 +145,14 @@ describe('ICS', function() {
       expect(evnt.search('ATTENDEE;CN=Dad:mailto:dad@example.com')).to.be.greaterThan(-1);
       expect(evnt.search('ATTENDEE;CN=Mom:mailto:mom@example.com')).to.be.greaterThan(-1);
     });
+
+    it('sets an alarm when specified', function() {
+      var evnt = ics.buildEvent({ alarms: [{ action: 'display', description: 'This is an alert' }] });
+      expect(evnt.search('BEGIN:VALARM')).to.be.greaterThan(-1);
+      expect(evnt.search('ACTION:')).to.be.greaterThan(-1);
+      expect(evnt.search('TRIGGER:')).to.be.greaterThan(-1);
+      expect(evnt.search('END:VALARM')).to.be.greaterThan(-1);
+    });
   });
 
   describe('getDestination()', function() {
@@ -174,6 +182,6 @@ describe('ICS', function() {
       expect(ics.getDestination('/foo.ics')).to.equal('/foo.ics');
       expect(ics.getDestination('/foo')).to.equal('/foo.ics');
     });
-  });  
+  });
 
 });
